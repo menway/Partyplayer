@@ -28,12 +28,12 @@ public class LibraryFrame extends JFrame {
 	
 	private final Library lib;
 	private final Player player;
-	private GrooveTable libraryTable;
+	private SongTable libraryTable;
 	
 	public LibraryFrame(Library lib, final Player player, Properties settings, ResourceBundle bundle) throws Exception {
 		this.lib = lib;
 		this.player = player;
-		this.libraryTable = new GrooveTable(new String[]{"","Artist","Title","Album","Track#","Year","URL"}, settings);
+		this.libraryTable = new SongTable(new String[]{"","Artist","Title","Album","Track#","Year","URL"}, settings);
 		List<SongStream> songs = lib.getAllSongs();
 		for(SongStream song : songs)
 			libraryTable.addRow(song);
