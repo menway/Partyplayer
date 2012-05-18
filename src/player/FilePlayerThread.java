@@ -29,12 +29,12 @@ public class FilePlayerThread extends PlayerThread {
 		    AudioInputStream din = null;
 		    AudioFormat baseFormat = in.getFormat();
 		    AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-		                                                                                  baseFormat.getSampleRate(),
-		                                                                                  16,
-		                                                                                  baseFormat.getChannels(),
-		                                                                                  baseFormat.getChannels() * 2,
-		                                                                                  baseFormat.getSampleRate(),
-		                                                                                  false);
+	                                                              baseFormat.getSampleRate(),
+	                                                              16,
+	                                                              baseFormat.getChannels(),
+	                                                              baseFormat.getChannels() * 2,
+	                                                              baseFormat.getSampleRate(),
+	                                                              false);
 		    din = AudioSystem.getAudioInputStream(decodedFormat, in);
 		    // Play now.
 		    rawplay(decodedFormat, din);
@@ -46,7 +46,7 @@ public class FilePlayerThread extends PlayerThread {
 		if(!shouldStop)
 			listener.stoppedPlayback(stream);
 	}
-	private void rawplay(AudioFormat targetFormat, AudioInputStream din) throws IOException,                                                                                                LineUnavailableException
+	private void rawplay(AudioFormat targetFormat, AudioInputStream din) throws IOException,  LineUnavailableException, InterruptedException
 	{
 	  byte[] data = new byte[4096];
 	  SourceDataLine line = getLine(targetFormat);
@@ -57,6 +57,8 @@ public class FilePlayerThread extends PlayerThread {
 	    int nBytesRead = 0, nBytesWritten = 0;
 	    while (nBytesRead != -1 && !shouldStop)
 	    {
+	    	while (shouldPause)
+	    		Thread.sleep(50);
 	        nBytesRead = din.read(data, 0, data.length);
 	        if (nBytesRead != -1) nBytesWritten = line.write(data, 0, nBytesRead);
 	    }

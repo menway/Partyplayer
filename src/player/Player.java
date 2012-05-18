@@ -1,17 +1,33 @@
 package player;
 
-import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-import java.util.Vector;
 
 import library.interfaces.SongStream;
 
+/**
+ * A queued player for SongStreams
+ * @author Joakim Reinert
+ *
+ */
 public class Player implements PlayerListener {
+	
+	/**
+	 * The currently playing SongStream
+	 */
 	private SongStream nowPlaying;
+	
 	private final PlayerExecutor playerExecutor;
+	
+	/**
+	 * The queue containing all SongStreams that are scheduled to play
+	 */
 	private final List<SongStream> queue;
+	
+	/**
+	 * A Stack containing all previously played SongStreams
+	 */
 	private final Stack<SongStream> lastPlayed;
 	private boolean isPaused;
 	private boolean isStopped;
@@ -23,10 +39,16 @@ public class Player implements PlayerListener {
 		isStopped = true;
 	}
 	
-	
-	public void queue(SongStream stream) throws UnsupportedEncodingException {
+	/**
+	 * Adds a SongStream to the tail of the queue
+	 * @param stream - the SongStream to be queued
+	 */
+	public void queue(SongStream stream) {
 		queue.add(stream);
 	}
+	/**
+	 * Starts playing SongStreams from the head of the queue
+	 */
 	public void play() {
 		if(isPaused)
 			playerExecutor.resume();
@@ -39,31 +61,48 @@ public class Player implements PlayerListener {
 		isPaused = false;
 		isStopped = false;
 	}
+	/**
+	 * Pauses the playback of the currently playing SongStream
+	 */
 	public void pause() {
 		playerExecutor.pause();
 		isPaused = true;
 	}
+	
+	/**
+	 * Stops the playback of the currently playing SongStream (not resumable)
+	 */
 	public void stop() {
 		playerExecutor.stop();
 		isStopped = true;
 	}
+	/**
+	 * Skips the currently playing SongStream and moves to the next SongStream in the queue.
+	 */
 	public void skip() {
 		stop();
 		lastPlayed.push(queue.remove(0));
 		play();
 	}
+	/**
+	 * Skips the currently playing SongStream and starts playing the first SongStream in the lastPlayed stack
+	 */
 	public void back() {
 		stop();
 		queue.add(0, lastPlayed.pop());
 		play();
 	}
+	/**
+	 * Plays the given SongStream immediately, skipping the queue and stopping the playback of the currently playing SongStream
+	 * @param stream
+	 */
 	public void playNow(SongStream stream) {
 		stop();
 		lastPlayed.push(queue.get(0));
 		queue.set(0, stream);
 		play();
 	}
-
+	
 	@Override
 	public void startedPlayback(SongStream stream) {
 		nowPlaying = stream;
@@ -77,13 +116,20 @@ public class Player implements PlayerListener {
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * 
+	 * @return the currently playing SongStream
+	 */
 	public SongStream getNowPlaying() {
 		return nowPlaying;
 	}
 
-
-	public void queue(List<SongStream> selectedSongs) throws UnsupportedEncodingException {
-		for(SongStream stream : selectedSongs)
+	/**
+	 * Queues all given SongStreams
+	 * @param songs the SongStreams to be queued
+	 */
+	public void queue(List<SongStream> songs) {
+		for(SongStream stream : songs)
 			queue(stream);
 	}
 }

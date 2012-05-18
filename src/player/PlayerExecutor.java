@@ -3,59 +3,50 @@ package player;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Runs PlayerThreads
+ * @author Joakim Reinert
+ *
+ */
 public class PlayerExecutor extends ThreadPoolExecutor {
-
+	
 	public PlayerExecutor() {
 		super(1, 1, 0, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		// TODO Auto-generated constructor stub
 	}
 	private boolean isPaused;
-	private ReentrantLock pauseLock = new ReentrantLock();
-	private Condition unpaused = pauseLock.newCondition();
 	private PlayerThread runningThread;
 	
 	@Override
 	protected void beforeExecute(Thread t, Runnable r) {
 		super.beforeExecute(t, r);
-		pauseLock.lock();
-		try {
-			while (isPaused)
-				unpaused.await();
-		} catch (InterruptedException ie) {
-			t.interrupt();
-		} finally {
-			pauseLock.unlock();
-		}
 		runningThread = (PlayerThread) r;
 	}
-
+	/**
+	 * Pauses playback for the running PlayerThread
+	 */
 	public void pause() {
-		pauseLock.lock();
-		try {
-			isPaused = true;
-		} finally {
-			pauseLock.unlock();
-		}
+		runningThread.pause();
 	}
+	/**
+	 * Stops playback of the running PlayerThread (not resumable)
+	 */
 	public void stop() {
 		runningThread.stop();
 		pause();
 	}
-
-	
+	/**
+	 * Resumes the paused running PlayerThread
+	 */
 	public void resume() {
-		pauseLock.lock();
-		try {
-			isPaused = false;
-			unpaused.signalAll();
-		} finally {
-			pauseLock.unlock();
-		}
+		runningThread.resume();
 	}
+	/**
+	 * 
+	 * @return <b>true</b> if the currently running PlayerThread is paused, <b>false</b> otherwise
+	 */
 	public boolean isPaused() {
 		return isPaused;
 	}
