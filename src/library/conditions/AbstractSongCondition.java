@@ -14,11 +14,23 @@ public abstract class AbstractSongCondition implements Condition {
 	public static final int POSTFIX_MATCH_MODE = 5;
 	protected int mode;
 	
+	/**
+	 * Creates a new Condition with the given arguments
+	 * @param query - the value to be matched 
+	 * @param mode - the matching mode. <b>Must be one of:</b> 2,3,4,5!
+	 * @throws InvalidQueryException
+	 */
 	public AbstractSongCondition(String query, int mode) throws InvalidQueryException {
-		this.query = query;
 		this.mode = mode;
+		this.query = getQueryString(query);
 	}
-	public String getQueryString() {
+	
+	/**
+	 * Returns the modified query string for the given query string according to the mode
+	 * @param query
+	 * @return the appropriate query string
+	 */
+	private String getQueryString(String query) {
 		switch (mode) {
 		case 2:
 			return query;
@@ -30,7 +42,11 @@ public abstract class AbstractSongCondition implements Condition {
 			return "%" + query;
 		}
 	}
-	
+	/**
+	 * Returns the SQL Condition String for the given column name
+	 * @param columnName - the column to test the condition against
+	 * @return the parameterized condition string for the given column name
+	 */
 	protected String getSQLCondition(String columnName) {
 		if(mode == 2)
 			return "((? is null and " + columnName + " is null)  or (" + columnName + " = ?))";

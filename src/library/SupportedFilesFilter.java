@@ -3,7 +3,12 @@ package library;
 import java.io.File;
 import java.io.FileFilter;
 
-public class SupportedFilesFilter implements FileFilter {
+/**
+ * File filter that accepts only supported audio files
+ * @author ek36wori
+ *
+ */
+public final class SupportedFilesFilter implements FileFilter {
 
 	@Override
 	public boolean accept(File pathname) {

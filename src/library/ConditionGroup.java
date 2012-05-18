@@ -6,11 +6,21 @@ import java.util.LinkedList;
 
 import library.interfaces.Condition;
 
+/**
+ * A ConditionGroup is a Condition that holds multiple Conditions, which are linked either by OR or AND
+ * @author Joakim Reinert
+ *
+ */
 public class ConditionGroup extends LinkedList<Condition> implements Condition {
 
 	private static final long serialVersionUID = -4443447125751845278L;
 	public boolean matchAll;
 	
+	/**
+	 * Creates a ConditionGroup with the given Argument
+	 * @param matchAll - if this is set <b>true</b> all Conditions in this ConditionGroups must match
+	 * for this ConditionGroup to match as a whole, if it's set <b>false</b> only one Condition in this ConditionGroup must match.
+	 */
 	public ConditionGroup(boolean matchAll) {
 		this.matchAll = matchAll;
 	}

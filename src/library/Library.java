@@ -143,6 +143,13 @@ public class Library {
 		}
 		return songs;
 	}
+	/**
+	 * Get all songs from this library that match the given condition
+	 * @param cond - the condition which the songs have to match
+	 * @param sortBy - the table column to sort the results by
+	 * @return a List of all songs matching the given condition in this library
+	 * @throws Exception
+	 */
 	public List<SongStream> getSongsByCondition(Condition cond, String sortBy) throws Exception {
 		List<SongStream> songs = new LinkedList<SongStream>();
 		songs.addAll(getSongsByConditionFromTable(cond, FILES, sortBy));
@@ -152,9 +159,20 @@ public class Library {
 	public List<SongStream> getAllSongs() throws Exception {
 		return getAllSongs(ARTIST);
 	}
+	/**
+	 * Get all songs from this library that match the given condition
+	 * @param cond - the condition which the songs have to match
+	 * @return a List of all songs matching the given condition in this library
+	 * @throws Exception
+	 */
 	public List<SongStream> getSongsByCondition(Condition cond) throws Exception {
 		return getSongsByCondition(cond, ARTIST);
 	}
+	/**
+	 * Checks if the Library contains a Song with the given url
+	 * @param url - the url to be matched.
+	 * @return <b>true</b> if this Library contains a song with the given URL, <b>false</b> otherwise.
+	 */
 	public boolean contains(URL url) {
 		try {
 			Condition cond = new URLCondition(url.toString());

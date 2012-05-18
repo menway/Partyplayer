@@ -3,7 +3,6 @@ package library.conditions;
 import library.Library;
 import library.exceptions.InvalidQueryException;
 
-
 public class AlbumCondition extends AbstractSongCondition {
 
 	public AlbumCondition(String query, int mode) throws InvalidQueryException {
