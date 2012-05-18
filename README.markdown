@@ -35,6 +35,6 @@ mp3, ogg and flac
 PartyPlayer is written in Java and is released under the LGPL (see LICENSE.txt
 for details). It uses thus far following 3rd party libraries:
 
--   [JavaLayer]: http://www.javazoom.net/javalayer/javalayer.html
--   [h2]: http://www.h2database.com/html/main.html
--   [Tritonus]: http://www.tritonus.org/
+-   [JavaLayer](http://www.javazoom.net/javalayer/javalayer.html)
+-   [h2]:(http://www.h2database.com/html/main.html)
+-   [Tritonus]:(http://www.tritonus.org/)
