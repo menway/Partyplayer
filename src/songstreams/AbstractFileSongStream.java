@@ -12,8 +12,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import library.exceptions.InvalidSongFileException;
 
+/**
+ * A SongStream with a File as the underlying data
+ * @author Joakim Reinert
+ *
+ */
 public abstract class AbstractFileSongStream extends AbstractSongStream {
-
+	
 	private static final long serialVersionUID = 8742287430052968729L;
 	
 	protected File file;
@@ -24,6 +29,13 @@ public abstract class AbstractFileSongStream extends AbstractSongStream {
 	public void init() {
 		
 	}
+	/**
+	 * Returns the correct SongStream depending on the AudioFileFormat of the file
+	 * @param file - the file to create the SongStream from
+	 * @return a SongStream for the given file
+	 * @throws InvalidSongFileException if the AudioFileFormat type is not supported
+	 * @throws IOException if there is a problem reading the File
+	 */
 	public static AbstractFileSongStream getInstance(File file) throws InvalidSongFileException, IOException {
 		String name = file.getName();
 		try {
@@ -50,9 +62,20 @@ public abstract class AbstractFileSongStream extends AbstractSongStream {
 			return file.equals(((AbstractFileSongStream)o).file);
 		return false;
 	}
+	/**
+	 * Returns the File for this FileSongStream
+	 * @return
+	 */
 	public File getFile() {
 		return file;
 	}
+	/**
+	 * Returns the correct SongStream for the given file and type
+	 * @param file - the file to create the SongStream from
+	 * @param type - the AudioFileFormat type of the Audio file
+	 * @return a SongStream for the given file and type
+	 * @throws InvalidSongFileException if the type is not supported
+	 */
 	public static AbstractFileSongStream getInstance(File file, String type) throws InvalidSongFileException {
 		if(type.equalsIgnoreCase("mp3"))
 			return new MP3SongStream(file);

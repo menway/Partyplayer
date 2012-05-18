@@ -9,7 +9,12 @@ import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 
 import org.tritonus.share.sampled.file.TAudioFileFormat;
-
+ 
+/**
+ * 
+ * @author Joakim Reinert
+ *
+ */
 public class MP3SongStream extends AbstractFileSongStream {
 
 	private static final long serialVersionUID = -3525933543569218513L;
@@ -38,6 +43,12 @@ public class MP3SongStream extends AbstractFileSongStream {
 		}
 		
 	}
+	
+	/**
+	 * Parses an integer from an Object
+	 * @param object - the object containing the integer
+	 * @return -1 if the object doesn't contain an integer, the contained integer otherwise
+	 */
 	private int parseInt(Object object) {
 		try {
 			return Integer.parseInt((String) object);

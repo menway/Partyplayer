@@ -269,7 +269,7 @@ public class GrooveTable extends JTable {
 		}
 	}
 	public void addRow(SongStream stream) {
-		addRow(stream.getArtist(), stream.getName(),
+		addRow(stream.getArtist(), stream.getTitle(),
 					stream.getAlbum(), String.valueOf(stream.getTrackNum()),
 					String.valueOf(stream.getYear()), stream.getURL().toString());
 	}

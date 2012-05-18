@@ -99,7 +99,7 @@ public class Library {
 				URL + "," +
 				TYPE + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		statement.setString(1, song.getArtist());
-		statement.setString(2, song.getName());
+		statement.setString(2, song.getTitle());
 		statement.setString(3, song.getAlbum());
 		statement.setString(4, song.getGenre());
 		statement.setString(5, song.getComment());

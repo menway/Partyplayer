@@ -6,6 +6,11 @@ import java.net.URL;
 
 import library.interfaces.SongStream;
 
+/**
+ * A SongStream with an url as underlying data
+ * @author Joakim Reinert
+ *
+ */
 public class AbstractURLSongStream extends AbstractSongStream implements SongStream {
 
 		private static final long serialVersionUID = 7057445447272365143L;
