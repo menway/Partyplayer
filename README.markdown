@@ -33,9 +33,9 @@ mp3, ogg and flac
 
 ### Technical, Copyright and License ###
 
-For copyright notice see [NOTICE](NOTICE.txt)
+For copyright notice see [NOTICE](Partyplayer/NOTICE.txt)
 
-PartyPlayer is written in Java and is released under the GNU General Public License (GPL) (see [LICENSE](LICENSE.txt))
+PartyPlayer is written in Java and is released under the GNU General Public License (GPL) (see [LICENSE](Partyplayer/LICENSE.txt))
 for details). It is dependent of following 3rd party libraries thus far:
 
 -   [h2](http://www.h2database.com/html/main.html)
