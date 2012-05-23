@@ -17,12 +17,12 @@ public class PlayerExecutor extends ThreadPoolExecutor {
 		// TODO Auto-generated constructor stub
 	}
 	private boolean isPaused;
-	private PlayerThread runningThread;
+	private XugglePlayer runningThread;
 	
 	@Override
 	protected void beforeExecute(Thread t, Runnable r) {
 		super.beforeExecute(t, r);
-		runningThread = (PlayerThread) r;
+		runningThread = (XugglePlayer) r;
 	}
 	/**
 	 * Pauses playback for the running PlayerThread
@@ -41,7 +41,8 @@ public class PlayerExecutor extends ThreadPoolExecutor {
 	 * Resumes the paused running PlayerThread
 	 */
 	public void resume() {
-		runningThread.resume();
+		if(runningThread != null)
+			runningThread.resume();
 	}
 	/**
 	 * 

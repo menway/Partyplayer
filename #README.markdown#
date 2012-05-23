@@ -45,4 +45,4 @@ for details). It uses following 3rd party libraries thus far:
 
 Because of size issues with compiled versions and dependency issues with sources
 this repository doesn't contain any of them. If you want to compile this project
-you have to obtain and add the libraries yourself.
+you have to obtain and add the libraries yourself.cd 

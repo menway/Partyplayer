@@ -1,5 +1,7 @@
 package library.interfaces;
 
+import songstreams.SongStream;
+
 public interface ScanListener {
 	/**
 	 * Is called, when the scan is finished

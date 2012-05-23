@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import songstreams.SongStream;
+
 import library.Library;
 import library.Scanner;
 import library.SupportedFilesFilter;
 import library.conditions.AbstractSongCondition;
 import library.conditions.GenreCondition;
 import library.interfaces.ScanListener;
-import library.interfaces.SongStream;
 
 public class TestScanner implements ScanListener {
 

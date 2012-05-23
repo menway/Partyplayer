@@ -1,6 +1,7 @@
 package player;
 
-import library.interfaces.SongStream;
+import songstreams.SongStream;
+
 
 public interface PlayerListener {
 	/**

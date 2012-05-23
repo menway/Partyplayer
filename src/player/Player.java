@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import library.interfaces.SongStream;
+import songstreams.SongStream;
 
 /**
  * A queued player for SongStreams
@@ -18,7 +18,7 @@ public class Player implements PlayerListener {
 	 */
 	private SongStream nowPlaying;
 	
-	private final PlayerExecutor playerExecutor;
+	private PlayerExecutor playerExecutor;
 	
 	/**
 	 * The queue containing all SongStreams that are scheduled to play
@@ -33,7 +33,7 @@ public class Player implements PlayerListener {
 	private boolean isStopped;
 	
 	public Player() {
-		playerExecutor = new PlayerExecutor();
+		
 		queue = new LinkedList<SongStream>();
 		lastPlayed = new Stack<SongStream>();
 		isStopped = true;
@@ -44,6 +44,8 @@ public class Player implements PlayerListener {
 	 * @param stream - the SongStream to be queued
 	 */
 	public void queue(SongStream stream) {
+		if(isStopped)
+			playerExecutor = new PlayerExecutor();
 		queue.add(stream);
 	}
 	/**
@@ -54,7 +56,7 @@ public class Player implements PlayerListener {
 			playerExecutor.resume();
 		else {
 			if(isStopped) {
-				playerExecutor.execute(PlayerThread.getThread(queue.get(0), this));
+				playerExecutor.execute(new XugglePlayer(queue.get(0), this));
 				playerExecutor.resume();
 			}
 		}
@@ -75,6 +77,8 @@ public class Player implements PlayerListener {
 	public void stop() {
 		playerExecutor.stop();
 		isStopped = true;
+		if(queue.size() < 2)
+			playerExecutor.shutdown();
 	}
 	/**
 	 * Skips the currently playing SongStream and moves to the next SongStream in the queue.
@@ -109,7 +113,10 @@ public class Player implements PlayerListener {
 	}
 	@Override
 	public void stoppedPlayback(SongStream stream) {
-		skip();
+		System.out.println("Stop at: " + System.currentTimeMillis());
+		stop();
+		if(queue.size() > 1)
+			skip();
 	}
 	@Override
 	public void pausedPlayback(SongStream stream) {

@@ -12,15 +12,13 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import songstreams.AbstractFileSongStream;
-import songstreams.AbstractSongStream;
-import songstreams.AbstractURLSongStream;
+import songstreams.SongStream;
+import songstreams.YouTubeSongStream;
 
 
 import library.conditions.TrueCondition;
 import library.conditions.URLCondition;
 import library.interfaces.Condition;
-import library.interfaces.SongStream;
 
 public class Library {
 	
@@ -36,12 +34,10 @@ public class Library {
 	public static final String ALBUM = "Album";
 	public static final String TITLE = "Title";
 	public static final String GENRE = "Genre";
-	public static final String COMMENT = "Comment";
 	public static final String YEAR = "Year";
 	public static final String TRACK_NUM = "TrackNum";
 	public static final String BPM = "BPM";
 	public static final String URL = "URL";
-	public static final String TYPE = "Type";
 	
 	public static final String FILES = "files";
 	public static final String STREAMS = "streams";
@@ -65,12 +61,10 @@ public class Library {
 				TITLE + " VARCHAR (100)," +
 				ALBUM + " VARCHAR (100)," +
 				GENRE + " VARCHAR (30)," +
-				COMMENT + " VARCHAR (500)," +
 				YEAR + " INTEGER," +
 				TRACK_NUM + " INTEGER," +
-				BPM + " INTEGER," +
-				URL + " VARCHAR(1000) NOT NULL UNIQUE," +
-				TYPE + " VARCHAR(4))");
+				BPM + " FLOAT," +
+				URL + " VARCHAR(1000) NOT NULL UNIQUE)");
 	}
 	/**
 	 * Adds a new song to this Library and its database
@@ -80,9 +74,9 @@ public class Library {
 	 * @throws IOException if an error occurs writing the Song to a blob
 	 */
 	public boolean addSong(SongStream song) throws SQLException, IOException {
-		if(song instanceof AbstractFileSongStream)
-			return addSongToTable(song, FILES);
-		if(song instanceof AbstractURLSongStream)
+		if(song instanceof YouTubeSongStream)
+			return addSongToTable(song, URL);
+		if(song instanceof SongStream)
 			return addSongToTable(song, URL);
 		return false;
 	}
@@ -92,22 +86,18 @@ public class Library {
 				TITLE + "," + 
 				ALBUM + "," +
 				GENRE + "," +
-				COMMENT + "," +
 				YEAR + "," +
 				TRACK_NUM + "," +
 				BPM + "," +
-				URL + "," +
-				TYPE + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				URL + ") VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 		statement.setString(1, song.getArtist());
 		statement.setString(2, song.getTitle());
 		statement.setString(3, song.getAlbum());
 		statement.setString(4, song.getGenre());
-		statement.setString(5, song.getComment());
-		statement.setInt(6, song.getYear());
-		statement.setInt(7, song.getTrackNum());
-		statement.setInt(8, song.getBpm());
-		statement.setString(9, song.getURL().toString());
-		statement.setString(10, song.getType());
+		statement.setInt(5, song.getYear());
+		statement.setInt(6, song.getTrackNum());
+		statement.setFloat(7, song.getBpm());
+		statement.setString(8, song.getURL().toString());
 		statement.executeUpdate();
 		connection.commit();
 		statement.close();
@@ -129,7 +119,7 @@ public class Library {
 		ResultSet result = statement.executeQuery();
 		List<SongStream> songs = new LinkedList<SongStream>();
 		while(result.next()) {
-			songs.add(AbstractSongStream.getFileSongStream(
+			songs.add(new SongStream(
 					result.getString(ARTIST),
 					result.getString(TITLE),
 					result.getString(ALBUM),
@@ -137,9 +127,7 @@ public class Library {
 					result.getInt(YEAR),
 					result.getInt(TRACK_NUM),
 					result.getInt(BPM),
-					result.getString(COMMENT),
-					result.getString(URL),
-					result.getString(TYPE)));
+					result.getString(URL)));
 		}
 		return songs;
 	}

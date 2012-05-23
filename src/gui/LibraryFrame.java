@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -13,12 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 import player.Player;
+import songstreams.SongStream;
 
 import library.Library;
-import library.interfaces.SongStream;
 
 public class LibraryFrame extends JFrame {
 	/**
@@ -26,13 +23,9 @@ public class LibraryFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 7178375824315492885L;
 	
-	private final Library lib;
-	private final Player player;
 	private SongTable libraryTable;
 	
 	public LibraryFrame(Library lib, final Player player, Properties settings, ResourceBundle bundle) throws Exception {
-		this.lib = lib;
-		this.player = player;
 		this.libraryTable = new SongTable(new String[]{"","Artist","Title","Album","Track#","Year","URL"}, settings);
 		List<SongStream> songs = lib.getAllSongs();
 		for(SongStream song : songs)

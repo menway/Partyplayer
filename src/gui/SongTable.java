@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Comparator;
 import java.util.Properties;
 import java.util.Vector;
@@ -30,9 +28,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import songstreams.AbstractSongStream;
+import songstreams.SongStream;
 
-import library.interfaces.SongStream;
 
 public class SongTable extends JTable {
 	/**
@@ -317,9 +314,7 @@ public class SongTable extends JTable {
 		int year = getYearForRow(i);
 		URL url = getURLForRow(i);
 		// TODO
-		if(new File(URLDecoder.decode(url.getFile(), "UTF-8")).exists())
-			return AbstractSongStream.getFileSongStream(artist, title, album, null, year, trackNr, -1, null, url.toString(), "mp3");
-		throw new Exception();
+		return new SongStream(artist, title, album, null, year, trackNr, -1F, url.toString());
 	}
 
 	private URL getURLForRow(int i) {

@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.List;
 
 import player.Player;
+import songstreams.SongStream;
 
 import library.Library;
-import library.conditions.TrueCondition;
-import library.interfaces.SongStream;
 
 public class TestPlayer {
 
@@ -16,7 +15,6 @@ public class TestPlayer {
 	 */
 	public static void main(String[] args) {
 		try {
-			TrueCondition tc = new TrueCondition();
 			Library library = new Library(new File(System.getProperty("user.dir") + "/music"));
 			List<SongStream> songs = library.getAllSongs();
 			Player player = new Player();

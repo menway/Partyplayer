@@ -5,11 +5,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import songstreams.AbstractFileSongStream;
-
-import library.exceptions.InvalidSongFileException;
+import songstreams.SongStream;
 import library.interfaces.ScanListener;
-import library.interfaces.SongStream;
 
 /**
  * The Scanner class scans a directory recursively for supported audio files and adds them to a library
@@ -57,11 +54,9 @@ public class Scanner implements Runnable {
 			try {
 				if(library.contains(file.toURI().toURL()))
 					return;
-				SongStream song = AbstractFileSongStream.getInstance(file);
+				SongStream song = new SongStream(file);
 				if(library.addSong(song))
 					listener.songFound(song);
-			} catch (InvalidSongFileException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
