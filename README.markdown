@@ -41,8 +41,8 @@ for details). It uses following 3rd party libraries thus far:
 -   [h2](http://www.h2database.com/html/main.html)
 -   [slf4j](http://www.slf4j.org)
 -   [xuggler](http://www.xuggle.com/xuggler/)
--   [jlhhtp](http://www.freeutils.net/source/jlhttp/)
+-   [jlhttp](http://www.freeutils.net/source/jlhttp/)
 
 Because of size issues with compiled versions and dependency issues with sources
 this repository doesn't contain any of them. If you want to compile this project
-you have to obtain and add the libraries yourself.
+you have to obtain and add the libraries yourself.cd 
