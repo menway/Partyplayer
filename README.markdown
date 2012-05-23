@@ -36,7 +36,7 @@ mp3, ogg and flac
 For copyright notice see [NOTICE](NOTICE.txt)
 
 PartyPlayer is written in Java and is released under the GNU General Public License (GPL) (see [LICENSE](LICENSE.txt))
-for details). It uses following 3rd party libraries thus far:
+for details). It is dependent of following 3rd party libraries thus far:
 
 -   [h2](http://www.h2database.com/html/main.html)
 -   [slf4j](http://www.slf4j.org)
@@ -45,4 +45,4 @@ for details). It uses following 3rd party libraries thus far:
 
 Because of size issues with compiled versions and dependency issues with sources
 this repository doesn't contain any of them. If you want to compile this project
-you have to obtain and add the libraries yourself.cd 
+you have to obtain and add the libraries yourself.
