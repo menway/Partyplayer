@@ -139,4 +139,8 @@ public class Player implements PlayerListener {
 		for(SongStream stream : songs)
 			queue(stream);
 	}
+
+	public boolean isPlaying() {
+		return !isPaused && !isStopped;
+	}
 }

@@ -66,56 +66,8 @@ public class TbCm {
         parameter = parameter.replaceFirst("(watch\\?.*?v)", "watch?v");
         parameter = parameter.replaceFirst("/embed/", "/watch?v=");
         parameter = parameter.replaceFirst("https", "http");
-//        Browser br = new Browser();
-//        br.setFollowRedirects(true);
-//        br.setCookiesExclusive(true);
-//        br.clearCookies("youtube.com");
+
         return getLinks(parameter);
-//        if (parameter.contains("watch#")) {
-//            parameter = parameter.replace("watch#", "watch?");
-//        }
-//        if (parameter.contains("v/")) {
-//            String id = new Regex(parameter, "v/([a-z\\-_A-Z0-9]+)").getMatch(0);
-//            if (id != null) parameter = "http://www.youtube.com/watch?v=" + id;
-//        }
-//        if (parameter.contains("view_play_list") || parameter.contains("playlist") || parameter.contains("g/c/") || parameter.contains("grid/user/")) {
-//            if (parameter.contains("g/c/") || parameter.contains("grid/user/")) {
-//                String id = new Regex(parameter, "g/c/([a-z\\-_A-Z0-9]+)").getMatch(0);
-//                if (id == null) {
-//                    id = new Regex(parameter, "grid/user/([a-z\\-_A-Z0-9]+)").getMatch(0);
-//                    if (id == null) {
-//                        id = new Regex(parameter, "youtube\\.com/playlist\\?list=(.+)").getMatch(0);
-//                    }
-//                }
-//                if (id != null) parameter = "http://www.youtube.com/view_play_list?p=" + id;
-//            }
-//            String playlistID = new Regex(parameter, "\\?list=([a-zA-Z0-9]+)").getMatch(0);
-//            if (playlistID == null) playlistID = new Regex(parameter, "list\\?p=([a-zA-Z0-9]+)").getMatch(0);
-//            parameter = parameter.replaceFirst("playlist\\?", "view_play_list?");
-//            br.getPage(parameter);
-//            if (!parameter.contains("page=")) {
-//                final String[] pages = br.getRegex("<a href=(\"|')(http://www.youtube.com/view_play_list\\?p=.*?page=\\d+)(\"|')").getColumn(1);
-//                for (int i = 0; i < pages.length - 1; i++) {
-//                    br.getPage(pages[i]);
-//                }
-//            }
-//        } else {
-//            
-//            try {
-//                if (this.StreamingShareLink.matcher(parameter).matches()) {
-//                    // StreamingShareLink
-//
-//                    final String[] info = new Regex(parameter, this.StreamingShareLink).getMatches()[0];
-//
-//                    return new URL(info[1]);
-//                
-//                }
-//            } catch (final IOException e) {
-//                br.getHttpConnection().disconnect();
-//                return null;
-//            }
-//        }
-//        return null;
     }
 
     public HashMap<Integer, String[]> getLinks(final String video) throws Exception {
@@ -135,12 +87,7 @@ public class TbCm {
     	String pageString = page.toString();
     	if(pageString.contains("id=\"unavailable-submessage\" class\"watch-unavailable-submessage\""))
     		return null;
-    	
-//        br.setCookie("youtube.com", "PREF", "f2=40100000");
-//        br.getHeaders().put("User-Agent", "Wget/1.12");
-//        br.getPage(video);
-//        if (br.containsHTML("id=\"unavailable-submessage\" class=\"watch-unavailable-submessage\"")) { return null; }
-//        
+    	  
         Matcher matcher = VIDEO_ID.matcher(video);
         String VIDEOID = "";
         if(matcher.find())
@@ -152,10 +99,6 @@ public class TbCm {
         	matcher.find();
         	YT_FILENAME = URLDecoder.decode(matcher.group(1).replaceAll("\\+", " ").trim(), conn.getContentEncoding());
         }
-//        if (br.containsHTML("&title=")) {
-//            YT_FILENAME = Encoding.htmlDecode(br.getRegex("&title=([^&$]+)").getMatch(0).replaceAll("\\+", " ").trim());
-//            fileNameFound = true;
-//        }
         final String url = conn.getURL().toString();
         boolean ythack = false;
         if (url != null && !url.equals(video)) {
@@ -182,21 +125,6 @@ public class TbCm {
         		return null;
         	}
         }
-//        final String url = br.getURL();
-//        boolean ythack = false;
-//        if (url != null && !url.equals(video)) {
-//           if (url.toLowerCase(Locale.ENGLISH).indexOf("youtube.com/index?ytsession=") != -1 || url.toLowerCase(Locale.ENGLISH).indexOf("youtube.com/verify_age?next_url=") != -1) {
-//                ythack = true;
-//                br.getPage("http://www.youtube.com/get_video_info?video_id=" + VIDEOID);
-//                if (br.containsHTML("&title=") && fileNameFound == false) {
-//                    YT_FILENAME = Encoding.htmlDecode(br.getRegex("&title=([^&$]+)").getMatch(0).replaceAll("\\+", " ").trim());
-//                    fileNameFound = true;
-//                }
-//            } else if (url.toLowerCase(Locale.ENGLISH).indexOf("google.com/accounts/servicelogin?") != -1) {
-//                // private videos
-//                return null;
-//            }
-//        }
         /* html5_fmt_map */
         matcher = YT_FILENAME_PATTERN.matcher(pageString);
         matcher.find();
@@ -204,10 +132,6 @@ public class TbCm {
         	YT_FILENAME = URLDecoder.decode(matcher.group(1).trim(), "UTF-8");
         	fileNameFound = true;
         }
-//        if (br.getRegex(TbCm.YT_FILENAME_PATTERN).count() != 0 && fileNameFound == false) {
-//            YT_FILENAME = Encoding.htmlDecode(br.getRegex(TbCm.YT_FILENAME_PATTERN).getMatch(0).trim());
-//            fileNameFound = true;
-//        }
         final HashMap<Integer, String[]> links = new HashMap<Integer, String[]>();
         matcher = HTML5_FMT_MAP.matcher(pageString);
         String html5_fmt_map;
@@ -291,23 +215,6 @@ public class TbCm {
                     }
                 }
             }
-            
-//            if (links.size() == 0 && ythack) {
-//                /* try to find fallback links */
-//                String urls[] = br.getRegex("url%3D(.*?)($|%2C)").getColumn(0);
-//                int index = 0;
-//                for (String vurl : urls) {
-//                    String hitUrl = new Regex(vurl, "(.*?)%26").getMatch(0);
-//                    String hitQ = new Regex(vurl, "%26quality%3D(.*?)%").getMatch(0);
-//                    if (hitUrl != null && hitQ != null) {
-//                        hitUrl = unescape(hitUrl.replaceAll("\\\\/", "/"));
-//                        if (fmt_list_map.length >= index) {
-//                            links.put(Integer.parseInt(fmt_list_map[index][0]), new String[] { Encoding.htmlDecode(Encoding.urlDecode(hitUrl, false)), hitQ });
-//                            index++;
-//                        }
-//                    }
-//                }
-//            }
             for (Integer fmt : links.keySet()) {
                 String fmt2 = fmt + "";
                 if (fmt_list.containsKey(fmt2)) {
@@ -335,97 +242,6 @@ public class TbCm {
                 links.put(-1, new String[] { YT_FILENAME });
             }
             return links;
-        	
-//        String html5_fmt_map = br.getRegex("\"html5_fmt_map\": \\[(.*?)\\]").getMatch(0);
-//
-//        if (html5_fmt_map != null) {
-//            String[] html5_hits = new Regex(html5_fmt_map, "\\{(.*?)\\}").getColumn(0);
-//            if (html5_hits != null) {
-//                for (String hit : html5_hits) {
-//                    String hitUrl = new Regex(hit, "url\": \"(http:.*?)\"").getMatch(0);
-//                    String hitFmt = new Regex(hit, "itag\": (\\d+)").getMatch(0);
-//                    String hitQ = new Regex(hit, "quality\": \"(.*?)\"").getMatch(0);
-//                    if (hitUrl != null && hitFmt != null && hitQ != null) {
-//                        hitUrl = unescape(hitUrl.replaceAll("\\\\/", "/"));
-//                        links.put(Integer.parseInt(hitFmt), new String[] { Encoding.htmlDecode(Encoding.urlDecode(hitUrl, true)), hitQ });
-//                    }
-//                }
-//            }
-//        } else {
-//            /* new format since ca. 1.8.2011 */
-//            html5_fmt_map = br.getRegex("\"url_encoded_fmt_stream_map\": \"(.*?)\"").getMatch(0);
-//            if (html5_fmt_map != null) {
-//                String[] html5_hits = new Regex(html5_fmt_map, "(.*?)(,|$)").getColumn(0);
-//                if (html5_hits != null) {
-//                    for (String hit : html5_hits) {
-//                        hit = unescape(hit);
-//                        String hitUrl = new Regex(hit, "url=(http.*?)\\&").getMatch(0);
-//                        String hitFmt = new Regex(hit, "itag=(\\d+)").getMatch(0);
-//                        String hitQ = new Regex(hit, "quality=(.*?)&").getMatch(0);
-//                        if (hitUrl != null && hitFmt != null && hitQ != null) {
-//                            hitUrl = unescape(hitUrl.replaceAll("\\\\/", "/"));
-//                            links.put(Integer.parseInt(hitFmt), new String[] { Encoding.htmlDecode(Encoding.urlDecode(hitUrl, true)), hitQ });
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-//        /* normal links */
-//        final HashMap<String, String> fmt_list = new HashMap<String, String>();
-//        String fmt_list_str = "";
-//        if (ythack) {
-//            fmt_list_str = (br.getMatch("&fmt_list=(.+?)&") + ",").replaceAll("%2F", "/").replaceAll("%2C", ",");
-//        } else {
-//            fmt_list_str = (br.getMatch("\"fmt_list\":\\s+\"(.+?)\",") + ",").replaceAll("\\\\/", "/");
-//        }
-//        final String fmt_list_map[][] = new Regex(fmt_list_str, "(\\d+)/(\\d+x\\d+)/\\d+/\\d+/\\d+,").getMatches();
-//        for (final String[] fmt : fmt_list_map) {
-//            fmt_list.put(fmt[0], fmt[1]);
-//        }
-//        if (links.size() == 0 && ythack) {
-//            /* try to find fallback links */
-//            String urls[] = br.getRegex("url%3D(.*?)($|%2C)").getColumn(0);
-//            int index = 0;
-//            for (String vurl : urls) {
-//                String hitUrl = new Regex(vurl, "(.*?)%26").getMatch(0);
-//                String hitQ = new Regex(vurl, "%26quality%3D(.*?)%").getMatch(0);
-//                if (hitUrl != null && hitQ != null) {
-//                    hitUrl = unescape(hitUrl.replaceAll("\\\\/", "/"));
-//                    if (fmt_list_map.length >= index) {
-//                        links.put(Integer.parseInt(fmt_list_map[index][0]), new String[] { Encoding.htmlDecode(Encoding.urlDecode(hitUrl, false)), hitQ });
-//                        index++;
-//                    }
-//                }
-//            }
-//        }
-//        for (Integer fmt : links.keySet()) {
-//            String fmt2 = fmt + "";
-//            if (fmt_list.containsKey(fmt2)) {
-//                String Videoq = links.get(fmt)[1];
-//                final Integer q = Integer.parseInt(fmt_list.get(fmt2).split("x")[1]);
-//                if (fmt == 40) {
-//                    Videoq = "240p Light";
-//                } else if (q > 1080) {
-//                    Videoq = "Original";
-//                } else if (q > 720) {
-//                    Videoq = "1080p";
-//                } else if (q > 576) {
-//                    Videoq = "720p";
-//                } else if (q > 360) {
-//                    Videoq = "480p";
-//                } else if (q > 240) {
-//                    Videoq = "360p";
-//                } else {
-//                    Videoq = "240p";
-//                }
-//                links.get(fmt)[1] = Videoq;
-//            }
-//        }
-//        if (YT_FILENAME != null) {
-//            links.put(-1, new String[] { YT_FILENAME });
-//        }
-//        return links;
     }
 
     private static synchronized String unescape(final String s) {

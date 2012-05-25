@@ -19,8 +19,12 @@ public class SongStream {
 	private final IMetaData metadata;
 	protected URL url;
 	
-	public SongStream(URL url) throws UnsupportedEncodingException {
-		this.url = url;
+	public SongStream(URL url) throws UnsupportedEncodingException, MalformedURLException {
+		File file = new File(url.getFile());
+		if(file.exists())
+			this.url = file.toURI().toURL();
+		else
+			this.url = url;
 		container = IContainer.make();
 		open(IContainer.Type.READ, null);
 		metadata = container.getMetaData();
@@ -132,6 +136,22 @@ public class SongStream {
 	@Override
 	public String toString() {
 		return getArtist() +  " - " + getTitle() + " [" + getAlbum() + " (" + getYear() + ")]";  
+	}
+	public String getTableRow(boolean clickable) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("<tr ");
+		if(clickable)
+			builder.append("onmouseover=\"ChangeColor(this, true); this.style.cursor='pointer';\" onmouseout=\"ChangeColor(this,false);\" onClick=\"Queue('" + getURL() + "');\"");
+		builder.append("><td>");
+		builder.append(getArtist());
+		builder.append("</td><td>");
+		builder.append(getTitle());
+		builder.append("</td><td>");
+		builder.append(getAlbum());
+		builder.append("</td><td>");
+		builder.append(getYear());
+		builder.append("</td></tr>");
+		return builder.toString();
 	}
 	@Override
 	public boolean equals(Object o) {

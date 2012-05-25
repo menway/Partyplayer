@@ -18,6 +18,7 @@ import songstreams.YouTubeSongStream;
 
 import library.conditions.TrueCondition;
 import library.conditions.URLCondition;
+import library.exceptions.InvalidQueryException;
 import library.interfaces.Condition;
 
 public class Library {
@@ -170,6 +171,19 @@ public class Library {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	/**
+	 * Gets the Song with the given URL 
+	 * @param string - the URL of the song
+	 * @return a SongStream for the URL or null if no such song exists
+	 * @throws Exception 
+	 * @throws InvalidQueryException 
+	 */
+	public SongStream getSong(String string) throws InvalidQueryException, Exception {
+		List<SongStream> result = getSongsByCondition(new URLCondition(string));
+		if(result.size() == 0)
+			return null;
+		return result.get(0);
 	}
 	
 }
